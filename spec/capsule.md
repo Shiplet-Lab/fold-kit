@@ -11,6 +11,7 @@ kind: Capsule
 metadata:
   name: invoice-tool
 runtime: node
+stack: nextjs
 build: npm run build
 start: npm start
 port: 3000
