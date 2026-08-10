@@ -1,0 +1,6 @@
+version: 1
+runtime: node
+build: npm run build
+start: npm start
+port: 3000
+health: /health

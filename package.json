@@ -1,0 +1,24 @@
+{
+  "name": "@shiplet/runtime-kit",
+  "version": "0.1.0",
+  "description": "Open runtime contract and readiness inspector for small applications.",
+  "type": "module",
+  "bin": {
+    "shiplet-check": "./bin/shiplet-check.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "Apache-2.0",
+  "files": [
+    "bin",
+    "spec",
+    "examples",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "check": "node bin/shiplet-check.mjs",
+    "test": "node --test test/*.test.mjs"
+  }
+}
