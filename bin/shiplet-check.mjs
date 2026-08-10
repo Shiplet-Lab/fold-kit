@@ -1,9 +1,12 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
-const args = new Set(process.argv.slice(2));
+const rawArgs = process.argv.slice(2);
+const args = new Set(rawArgs);
 const json = args.has("--json");
+const writeContract = args.has("--write-contract");
+const providerArg = rawArgs.find((arg) => arg.startsWith("--provider="))?.split("=")[1];
 const root = resolve(process.cwd());
 const readJson = (file) => {
   try { return JSON.parse(readFileSync(join(root, file), "utf8")); } catch { return null; }
@@ -43,6 +46,19 @@ if (contract?.health && !contract.health.startsWith("/")) add("runtime.health", 
 if (existsSync(join(root, ".env"))) add("secrets.env", "review", ".env exists locally; never commit secret values.");
 if (!checks.length) add("runtime.ready", "pass", "Application has a usable runtime contract.");
 const result = { kind: process.env.SHIPLET_KIND ?? "runtime", version: 1, project: pkg?.name ?? root.split("/").pop(), stack, runtime, build, start, port, health: contract?.health ?? "/", checks, ready: !checks.some((check) => check.level === "critical") };
+if (writeContract && !existsSync(join(root, "capsule.yaml"))) {
+  const lines = ["apiVersion: shiplet.dev/v1", "kind: Capsule", "metadata:", `  name: ${result.project}`, `runtime: ${runtime}`, `stack: ${stack}`, build ? `build: ${build}` : null, start ? `start: ${start}` : null, `port: ${port}`, `health: ${result.health}`].filter(Boolean);
+  writeFileSync(join(root, "capsule.yaml"), `${lines.join("\n")}\n`, { flag: "wx" });
+}
+if (providerArg) {
+  const supported = new Set(["docker", "vercel", "cloudflare", "render"]);
+  if (!supported.has(providerArg)) { console.error(`Unsupported provider: ${providerArg}`); process.exitCode = 2; }
+  else {
+    const outputDir = join(root, ".shiplet", "compiled");
+    mkdirSync(outputDir, { recursive: true });
+    writeFileSync(join(outputDir, `${providerArg}.json`), JSON.stringify({ provider: providerArg, capsule: result, generatedBy: "@shiplet/runtime-kit" }, null, 2) + "\n");
+  }
+}
 if (json) console.log(JSON.stringify(result, null, 2));
 else {
   console.log(`${result.kind === "capsule" ? "Shiplet Capsule Plan" : "Shiplet Runtime Check"} · ${result.project}`);

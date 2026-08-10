@@ -90,7 +90,17 @@ locally with:
 node bin/shiplet.mjs capsule plan --json
 ```
 
-Use [`spec/capsule.md`](spec/capsule.md) for the early v1 shape. Capsules are
+Use [`spec/capsule.md`](spec/capsule.md) for the early v1 shape.
+
+Generate a contract or compile a provider-neutral report:
+
+```bash
+shiplet capsule init
+shiplet capsule compile --provider=docker
+```
+
+Compilation is intentionally metadata-only for now; it does not deploy or change
+provider infrastructure. Capsules are
 the bridge between an application and a provider: Shiplet can eventually
 compile the same plan for Docker, Vercel, Cloudflare, Render, or another
 platform without pretending to replace that provider’s infrastructure tools.
@@ -121,7 +131,7 @@ The v1 contract supports:
 
 Never put secret values in `shiplet.yaml`. List secret **names** only, and provide values through the deployment environment.
 
-Read the complete specification in [`spec/runtime-contract.md`](spec/runtime-contract.md).
+Read the complete specification in [`spec/runtime-contract.md`](spec/runtime-contract.md) and follow the public [`ROADMAP.md`](ROADMAP.md).
 
 ## GitHub Actions
 
