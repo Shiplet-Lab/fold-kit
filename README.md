@@ -1,6 +1,6 @@
-# Shiplet Runtime Kit
+# Shiplet Capsule Kit
 
-[![Runtime check](https://github.com/Shiplet-Lab/runtime-kit/actions/workflows/runtime-check.yml/badge.svg)](https://github.com/Shiplet-Lab/runtime-kit/actions/workflows/runtime-check.yml)
+[![Runtime check](https://github.com/Shiplet-Lab/capsule-kit/actions/workflows/runtime-check.yml/badge.svg)](https://github.com/Shiplet-Lab/capsule-kit/actions/workflows/runtime-check.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 
 **An open, provider-neutral runtime contract and readiness checker for small applications.**
@@ -26,21 +26,21 @@ It is deliberately small. The contract is portable and the hosted platform is re
 Once the package is published, run it from any project directory:
 
 ```bash
-npx @shiplet/runtime-kit --json
+npx @shiplet/capsule-kit --json
 ```
 
 For now, run the checker from a checkout:
 
 ```bash
-git clone https://github.com/Shiplet-Lab/runtime-kit
-cd runtime-kit
+git clone https://github.com/Shiplet-Lab/capsule-kit
+cd capsule-kit
 node bin/shiplet-check.mjs --json
 ```
 
 After the first npm release, you can install it globally:
 
 ```bash
-npm install --global @shiplet/runtime-kit
+npm install --global @shiplet/capsule-kit
 shiplet-check
 ```
 
@@ -142,7 +142,7 @@ Add the checker to a project after installing the package:
 - uses: actions/setup-node@v4
   with:
     node-version: 20
-- run: npm install --global @shiplet/runtime-kit
+- run: npm install --global @shiplet/capsule-kit
 - run: shiplet-check --json
 ```
 

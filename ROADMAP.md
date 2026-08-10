@@ -1,6 +1,6 @@
-# Shiplet Runtime Kit roadmap
+# Shiplet Capsule Kit roadmap
 
-The Runtime Kit is the open-source foundation for Shiplet Capsules. The roadmap
+The Capsule Kit is the open-source foundation for Shiplet Capsules. The roadmap
 is organized around one promise: make small applications easier to understand,
 prepare, move, and operate.
 

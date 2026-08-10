@@ -1,7 +1,7 @@
 {
-  "name": "@shiplet/runtime-kit",
+  "name": "@shiplet/capsule-kit",
   "version": "0.1.0",
-  "description": "Open runtime contract and readiness inspector for small applications.",
+  "description": "Open Capsule contract and application delivery toolkit for small applications.",
   "type": "module",
   "bin": {
     "shiplet": "./bin/shiplet.mjs",
