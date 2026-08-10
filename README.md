@@ -23,13 +23,21 @@ It is deliberately small. The contract is portable and the hosted platform is re
 
 ## Quick start
 
-From any project directory:
+Once the package is published, run it from any project directory:
 
 ```bash
 npx @shiplet/runtime-kit --json
 ```
 
-Or install it globally:
+For now, run the checker from a checkout:
+
+```bash
+git clone https://github.com/Shiplet-Lab/runtime-kit
+cd runtime-kit
+node bin/shiplet-check.mjs --json
+```
+
+After the first npm release, you can install it globally:
 
 ```bash
 npm install --global @shiplet/runtime-kit
