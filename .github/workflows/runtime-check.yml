@@ -10,5 +10,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Check runtime contract
-        run: node bin/shiplet-check.mjs --json
+      - name: Run checker tests
+        run: npm test
+      - name: Check example application
+        working-directory: examples/sample-node
+        run: node ../../bin/shiplet-check.mjs --json
