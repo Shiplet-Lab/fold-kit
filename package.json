@@ -4,6 +4,7 @@
   "description": "Open runtime contract and readiness inspector for small applications.",
   "type": "module",
   "bin": {
+    "shiplet": "./bin/shiplet.mjs",
     "shiplet-check": "./bin/shiplet-check.mjs"
   },
   "engines": {

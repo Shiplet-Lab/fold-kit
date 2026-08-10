@@ -9,7 +9,7 @@ const readJson = (file) => {
   try { return JSON.parse(readFileSync(join(root, file), "utf8")); } catch { return null; }
 };
 const parseContract = () => {
-  const file = join(root, "shiplet.yaml");
+  const file = existsSync(join(root, "capsule.yaml")) ? join(root, "capsule.yaml") : join(root, "shiplet.yaml");
   if (!existsSync(file)) return null;
   const values = {};
   for (const raw of readFileSync(file, "utf8").split(/\r?\n/)) {
@@ -39,10 +39,10 @@ if (!Number.isInteger(port) || port < 1 || port > 65535) add("runtime.port", "cr
 if (contract?.health && !contract.health.startsWith("/")) add("runtime.health", "review", "Health path should begin with '/'.");
 if (existsSync(join(root, ".env"))) add("secrets.env", "review", ".env exists locally; never commit secret values.");
 if (!checks.length) add("runtime.ready", "pass", "Application has a usable runtime contract.");
-const result = { version: 1, project: pkg?.name ?? root.split("/").pop(), runtime, build, start, port, health: contract?.health ?? "/", checks, ready: !checks.some((check) => check.level === "critical") };
+const result = { kind: process.env.SHIPLET_KIND ?? "runtime", version: 1, project: pkg?.name ?? root.split("/").pop(), runtime, build, start, port, health: contract?.health ?? "/", checks, ready: !checks.some((check) => check.level === "critical") };
 if (json) console.log(JSON.stringify(result, null, 2));
 else {
-  console.log(`Shiplet Runtime Check · ${result.project}`);
+  console.log(`${result.kind === "capsule" ? "Shiplet Capsule Plan" : "Shiplet Runtime Check"} · ${result.project}`);
   console.log(`Runtime: ${runtime} · Port: ${port} · Health: ${result.health}`);
   for (const check of checks) console.log(`${check.level === "pass" ? "✓" : check.level === "critical" ? "✗" : "!"} ${check.message}`);
   console.log(result.ready ? "\nReady for a deployment review." : "\nNot ready: resolve critical findings first.");

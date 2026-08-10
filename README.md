@@ -80,6 +80,21 @@ shiplet-check --json > runtime-report.json
 }
 ```
 
+## Capsules
+
+A Capsule is Shiplet’s portable application unit: source, runtime, health,
+requirements, and access intent in one inspectable object. Start planning one
+locally with:
+
+```bash
+node bin/shiplet.mjs capsule plan --json
+```
+
+Use [`spec/capsule.md`](spec/capsule.md) for the early v1 shape. Capsules are
+the bridge between an application and a provider: Shiplet can eventually
+compile the same plan for Docker, Vercel, Cloudflare, Render, or another
+platform without pretending to replace that provider’s infrastructure tools.
+
 ## Runtime contract
 
 Automatic detection works for common Node projects. Add `shiplet.yaml` when you want an explicit, portable contract:
