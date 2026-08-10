@@ -1,6 +1,6 @@
-# Shiplet Capsule Kit
+# Shiplet Fold Kit
 
-[![Runtime check](https://github.com/Shiplet-Lab/capsule-kit/actions/workflows/runtime-check.yml/badge.svg)](https://github.com/Shiplet-Lab/capsule-kit/actions/workflows/runtime-check.yml)
+[![Runtime check](https://github.com/Shiplet-Lab/fold-kit/actions/workflows/runtime-check.yml/badge.svg)](https://github.com/Shiplet-Lab/fold-kit/actions/workflows/runtime-check.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 
 **An open, provider-neutral runtime contract and readiness checker for small applications.**
@@ -26,21 +26,21 @@ It is deliberately small. The contract is portable and the hosted platform is re
 Once the package is published, run it from any project directory:
 
 ```bash
-npx @shiplet/capsule-kit --json
+npx @shiplet/fold-kit --json
 ```
 
 For now, run the checker from a checkout:
 
 ```bash
-git clone https://github.com/Shiplet-Lab/capsule-kit
-cd capsule-kit
+git clone https://github.com/Shiplet-Lab/fold-kit
+cd fold-kit
 node bin/shiplet-check.mjs --json
 ```
 
 After the first npm release, you can install it globally:
 
 ```bash
-npm install --global @shiplet/capsule-kit
+npm install --global @shiplet/fold-kit
 shiplet-check
 ```
 
@@ -80,27 +80,27 @@ shiplet-check --json > runtime-report.json
 }
 ```
 
-## Capsules
+## Folds
 
-A Capsule is Shiplet’s portable application unit: source, runtime, health,
+A Fold is Shiplet’s portable application unit: source, runtime, health,
 requirements, and access intent in one inspectable object. Start planning one
 locally with:
 
 ```bash
-node bin/shiplet.mjs capsule plan --json
+node bin/shiplet.mjs fold plan --json
 ```
 
-Use [`spec/capsule.md`](spec/capsule.md) for the early v1 shape.
+Use [`spec/fold.md`](spec/fold.md) for the early v1 shape.
 
 Generate a contract or compile a provider-neutral report:
 
 ```bash
-shiplet capsule init
-shiplet capsule compile --provider=docker
+shiplet fold init
+shiplet fold compile --provider=docker
 ```
 
 Compilation is intentionally metadata-only for now; it does not deploy or change
-provider infrastructure. Capsules are
+provider infrastructure. Folds are
 the bridge between an application and a provider: Shiplet can eventually
 compile the same plan for Docker, Vercel, Cloudflare, Render, or another
 platform without pretending to replace that provider’s infrastructure tools.
@@ -142,7 +142,7 @@ Add the checker to a project after installing the package:
 - uses: actions/setup-node@v4
   with:
     node-version: 20
-- run: npm install --global @shiplet/capsule-kit
+- run: npm install --global @shiplet/fold-kit
 - run: shiplet-check --json
 ```
 

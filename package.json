@@ -1,7 +1,7 @@
 {
-  "name": "@shiplet/capsule-kit",
+  "name": "@shiplet/fold-kit",
   "version": "0.1.0",
-  "description": "Open Capsule contract and application delivery toolkit for small applications.",
+  "description": "Open Fold contract and application delivery toolkit for small applications.",
   "type": "module",
   "bin": {
     "shiplet": "./bin/shiplet.mjs",

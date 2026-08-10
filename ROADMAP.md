@@ -1,6 +1,6 @@
-# Shiplet Capsule Kit roadmap
+# Shiplet Fold Kit roadmap
 
-The Capsule Kit is the open-source foundation for Shiplet Capsules. The roadmap
+The Fold Kit is the open-source foundation for Shiplet Folds. The roadmap
 is organized around one promise: make small applications easier to understand,
 prepare, move, and operate.
 
@@ -8,7 +8,7 @@ prepare, move, and operate.
 
 - [x] Apache-2.0 repository and contribution policy
 - [x] Runtime contract v1
-- [x] Capsule manifest draft
+- [x] Fold manifest draft
 - [x] Read-only CLI with stable JSON output
 - [x] Node, Python, Docker, Next.js, Vite, Express, FastAPI, and Django detection
 - [x] GitHub Actions validation
@@ -16,9 +16,9 @@ prepare, move, and operate.
 
 ## Phase 1 — Useful locally (next)
 
-- [x] `capsule plan`
-- [x] `capsule validate`
-- [x] `capsule init` without overwriting existing files
+- [x] `fold plan`
+- [x] `fold validate`
+- [x] `fold init` without overwriting existing files
 - [x] Provider-neutral compiled reports
 - [ ] Actionable remediation suggestions
 - [ ] `.env.example` requirement inventory
@@ -43,9 +43,9 @@ prepare, move, and operate.
 - [ ] Reproducible plan files for CI and code review
 - [ ] Security review workflow and responsible disclosure process
 
-## Phase 4 — Capsule runtime
+## Phase 4 — Fold runtime
 
-- [ ] Local `capsule dev` environment
+- [ ] Local `fold dev` environment
 - [ ] Preview environments
 - [ ] Health and readiness lifecycle
 - [ ] Portable release metadata
@@ -53,7 +53,7 @@ prepare, move, and operate.
 
 ## Phase 5 — Shiplet Cloud integration
 
-- [ ] Import a Capsule from GitHub
+- [ ] Import a Fold from GitHub
 - [ ] Managed deployment and logs
 - [ ] Private application gateway
 - [ ] Team invitations and app-only access

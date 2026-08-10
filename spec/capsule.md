@@ -1,13 +1,13 @@
-# Capsule v1
+# Fold v1
 
-A Capsule is a portable description of a small application and the operational
+A Fold is a portable description of a small application and the operational
 requirements needed to put it in front of real people. It is intentionally
 provider-neutral; adapters translate it to Docker, Vercel, Cloudflare, Render,
 or another platform.
 
 ```yaml
 apiVersion: shiplet.dev/v1
-kind: Capsule
+kind: Fold
 metadata:
   name: invoice-tool
 runtime: node
