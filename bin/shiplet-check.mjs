@@ -21,6 +21,7 @@ const parseContract = () => {
     if (!match) continue;
     values[match[1]] = match[2].replace(/^['"]|['"]$/g, "");
   }
+  if (values.apiVersion === "shiplet.dev/v1" && !values.version) values.version = "1";
   return values;
 };
 const pkg = readJson("package.json");
