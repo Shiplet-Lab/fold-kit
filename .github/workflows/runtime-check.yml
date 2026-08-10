@@ -11,4 +11,4 @@ jobs:
         with:
           node-version: 20
       - name: Check runtime contract
-        run: npx @shiplet/runtime-kit shiplet-check --json
+        run: node bin/shiplet-check.mjs --json
