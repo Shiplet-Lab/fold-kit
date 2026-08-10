@@ -1,5 +1,5 @@
 {
-  "name": "@shiplet/fold-kit",
+  "name": "@shiplet/fold",
   "version": "0.1.0",
   "description": "Open Fold contract and application delivery toolkit for small applications.",
   "type": "module",

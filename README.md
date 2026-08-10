@@ -26,7 +26,7 @@ It is deliberately small. The contract is portable and the hosted platform is re
 Once the package is published, run it from any project directory:
 
 ```bash
-npx @shiplet/fold-kit --json
+npx @shiplet/fold --json
 ```
 
 For now, run the checker from a checkout:
@@ -40,7 +40,7 @@ node bin/shiplet-check.mjs --json
 After the first npm release, you can install it globally:
 
 ```bash
-npm install --global @shiplet/fold-kit
+npm install --global @shiplet/fold
 shiplet-check
 ```
 
@@ -142,7 +142,7 @@ Add the checker to a project after installing the package:
 - uses: actions/setup-node@v4
   with:
     node-version: 20
-- run: npm install --global @shiplet/fold-kit
+- run: npm install --global @shiplet/fold
 - run: shiplet-check --json
 ```
 
