@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -27,4 +27,14 @@ test("detects a Next.js stack", () => {
   writeFileSync(join(dir, "package.json"), JSON.stringify({ name: "web", dependencies: { next: "latest" }, scripts: { start: "next start" } }));
   const result = JSON.parse(execFileSync(process.execPath, [cli, "--json"], { cwd: dir, encoding: "utf8" }));
   assert.equal(result.stack, "nextjs");
+});
+
+test("compiles a Docker deployment bundle without secrets", () => {
+  const dir = mkdtempSync(join(tmpdir(), "shiplet-fold-"));
+  writeFileSync(join(dir, "package.json"), JSON.stringify({ name: "web", scripts: { start: "node server.js" } }));
+  execFileSync(process.execPath, [cli, "--provider=docker", "--json"], { cwd: dir, encoding: "utf8" });
+  const dockerfile = readFileSync(join(dir, ".shiplet", "compiled", "Dockerfile"), "utf8");
+  assert.match(dockerfile, /USER node/);
+  assert.doesNotMatch(dockerfile, /SECRET|TOKEN|PASSWORD/);
+  assert.match(readFileSync(join(dir, ".shiplet", "compiled", "docker-compose.yml"), "utf8"), /healthcheck:/);
 });

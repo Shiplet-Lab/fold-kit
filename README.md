@@ -99,8 +99,17 @@ shiplet fold init
 shiplet fold compile --provider=docker
 ```
 
-Compilation is intentionally metadata-only for now; it does not deploy or change
-provider infrastructure. Folds are
+Docker compilation now writes a local bundle under `.shiplet/compiled/`:
+
+```text
+.shiplet/compiled/
+  Dockerfile
+  docker-compose.yml
+  docker.json
+```
+
+The generated Docker setup uses a non-root user and a healthcheck. Compilation
+is local and does not deploy or change provider infrastructure. Folds are
 the bridge between an application and a provider: Shiplet can eventually
 compile the same plan for Docker, Vercel, Cloudflare, Render, or another
 platform without pretending to replace that provider’s infrastructure tools.

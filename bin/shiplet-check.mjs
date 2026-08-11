@@ -57,7 +57,23 @@ if (providerArg) {
   else {
     const outputDir = join(root, ".shiplet", "compiled");
     mkdirSync(outputDir, { recursive: true });
-    writeFileSync(join(outputDir, `${providerArg}.json`), JSON.stringify({ provider: providerArg, capsule: result, generatedBy: "@shiplet/runtime-kit" }, null, 2) + "\n");
+    const compiled = { provider: providerArg, capsule: result, generatedBy: "@shiplet/fold" };
+    writeFileSync(join(outputDir, `${providerArg}.json`), JSON.stringify(compiled, null, 2) + "\n");
+    if (providerArg === "docker") {
+      const packageManager = existsSync(join(root, "pnpm-lock.yaml")) ? "pnpm" : existsSync(join(root, "yarn.lock")) ? "yarn" : "npm";
+      const install = runtime === "node"
+        ? packageManager === "pnpm" ? "corepack enable && pnpm install --frozen-lockfile" : packageManager === "yarn" ? "corepack enable && yarn install --frozen-lockfile" : existsSync(join(root, "package-lock.json")) ? "npm ci" : "npm install"
+        : runtime === "python" ? "pip install --no-cache-dir -r requirements.txt" : "echo 'Use the application Dockerfile for this runtime'";
+      const run = start ?? "node server.js";
+      const dockerfile = runtime === "python"
+        ? `FROM python:3.12-slim\nWORKDIR /app\nCOPY requirements.txt ./\nRUN ${install}\nCOPY . .\nENV PORT=${port}\nEXPOSE ${port}\nUSER nobody\nCMD [\"sh\", \"-c\", \"${run}\"]\n`
+        : `FROM node:22-slim\nWORKDIR /app\nCOPY package*.json ./\nRUN ${install}\nCOPY . .\nENV NODE_ENV=production PORT=${port}\nEXPOSE ${port}\nUSER node\nCMD [\"sh\", \"-c\", \"${run}\"]\n`;
+      writeFileSync(join(outputDir, "Dockerfile"), dockerfile);
+      const healthCommand = runtime === "python"
+        ? `python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:${port}${result.health}')\"`
+        : `node -e \"fetch('http://127.0.0.1:${port}${result.health}').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\"`;
+      writeFileSync(join(outputDir, "docker-compose.yml"), `services:\n  app:\n    build:\n      context: ../..\n      dockerfile: .shiplet/compiled/Dockerfile\n    ports:\n      - \"${port}:${port}\"\n    environment:\n      PORT: \"${port}\"\n    healthcheck:\n      test: [\"CMD-SHELL\", \"${healthCommand}\"]\n      interval: 30s\n      timeout: 5s\n      retries: 3\n`);
+    }
   }
 }
 if (json) console.log(JSON.stringify(result, null, 2));
