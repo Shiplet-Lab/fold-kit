@@ -21,3 +21,10 @@ test("fails when no start command exists", () => {
   writeFileSync(join(dir, "package.json"), JSON.stringify({ name: "demo" }));
   assert.throws(() => execFileSync(process.execPath, [cli, "--json"], { cwd: dir, encoding: "utf8" }));
 });
+
+test("detects a Next.js stack", () => {
+  const dir = mkdtempSync(join(tmpdir(), "shiplet-fold-"));
+  writeFileSync(join(dir, "package.json"), JSON.stringify({ name: "web", dependencies: { next: "latest" }, scripts: { start: "next start" } }));
+  const result = JSON.parse(execFileSync(process.execPath, [cli, "--json"], { cwd: dir, encoding: "utf8" }));
+  assert.equal(result.stack, "nextjs");
+});

@@ -3,15 +3,15 @@
 [![Runtime check](https://github.com/Shiplet-Lab/fold-kit/actions/workflows/runtime-check.yml/badge.svg)](https://github.com/Shiplet-Lab/fold-kit/actions/workflows/runtime-check.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 
-**An open, provider-neutral runtime contract and readiness checker for small applications.**
+**An open, provider-neutral application delivery toolkit for small applications.**
 
-Small apps often fail at the handoff between “it works on my machine” and “the team can use it.” Runtime Kit makes that handoff explicit: how the app builds, how it starts, which port it uses, and how a platform can check its health.
+Small apps often fail at the handoff between “it works on my machine” and “the team can use it.” Fold makes that handoff explicit: how the app builds, how it starts, which port it uses, and how a platform can check its health.
 
 Use it with Shiplet, Docker, CI, or your own infrastructure. The project is local-first and read-only: it does not upload your source code or read secret values.
 
 ## Why this exists
 
-Runtime Kit catches deployment blockers before they become deployment incidents:
+Fold catches deployment blockers before they become deployment incidents:
 
 - missing start commands
 - unclear or unsupported runtimes
@@ -57,7 +57,7 @@ A successful check exits with code `0`. Critical findings exit with code `1`, so
 
 ```text
 Shiplet Runtime Check · invoice-tool
-Runtime: node · Port: 3000 · Health: /health
+Stack: nextjs · Runtime: node · Port: 3000 · Health: /health
 ✓ Application has a usable runtime contract.
 
 Ready for a deployment review.
@@ -107,7 +107,7 @@ platform without pretending to replace that provider’s infrastructure tools.
 
 ## Runtime contract
 
-Automatic detection works for common Node projects. Add `shiplet.yaml` when you want an explicit, portable contract:
+Automatic detection works for common Node projects. Add `fold.yaml` when you want an explicit, portable contract:
 
 ```yaml
 version: 1
@@ -129,7 +129,7 @@ The v1 contract supports:
 | `port` | no | Listening port; defaults to `3000` |
 | `health` | no | HTTP health path; defaults to `/` |
 
-Never put secret values in `shiplet.yaml`. List secret **names** only, and provide values through the deployment environment.
+Never put secret values in `fold.yaml`. List secret **names** only, and provide values through the deployment environment.
 
 Read the complete specification in [`spec/runtime-contract.md`](spec/runtime-contract.md) and follow the public [`ROADMAP.md`](ROADMAP.md).
 

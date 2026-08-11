@@ -18,6 +18,6 @@ port: 3000
 health: /health
 ```
 
-The first implementation shares the Runtime Kit checker and produces a local,
+The first implementation shares the Fold checker and produces a local,
 read-only plan. Future versions add capability manifests, provider compilation,
 and signed readiness receipts.
