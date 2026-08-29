@@ -158,7 +158,7 @@ Add the checker to a project after installing the package:
 For a reusable readiness check with outputs:
 
 ```yaml
-- uses: Shiplet-Lab/fold-kit@main
+- uses: Shiplet-Lab/fold-kit@action-v0.1.0
   id: fold
   with:
     path: .
