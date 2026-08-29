@@ -1,0 +1,50 @@
+name: Fold readiness check
+description: Check an application for deployment blockers with Shiplet Fold
+branding:
+  icon: check-circle
+  color: gold
+inputs:
+  path:
+    description: Directory containing the application to inspect
+    required: false
+    default: .
+  strict:
+    description: Fail when critical findings are present
+    required: false
+    default: 'true'
+  report:
+    description: Write the JSON report to this path
+    required: false
+    default: shiplet-fold-report.json
+outputs:
+  ready:
+    description: Whether the application passed the readiness check
+    value: ${{ steps.check.outputs.ready }}
+  report:
+    description: Path to the generated JSON report
+    value: ${{ steps.check.outputs.report }}
+runs:
+  using: composite
+  steps:
+    - id: check
+      name: Run Fold readiness check
+      shell: bash
+      env:
+        FOLD_PATH: ${{ inputs.path }}
+        FOLD_STRICT: ${{ inputs.strict }}
+        FOLD_REPORT: ${{ inputs.report }}
+      run: |
+        set -euo pipefail
+        mkdir -p "$(dirname "$FOLD_REPORT")"
+        (
+          cd "$FOLD_PATH"
+          npm exec --yes --package=@shiplet-labs/fold@0.1.2 -- shiplet-check --json
+        ) > "$FOLD_REPORT"
+        ready="$(node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync(process.argv[1],"utf8")); process.stdout.write(String(Boolean(r.ready)))' "$FOLD_REPORT")"
+        echo "ready=$ready" >> "$GITHUB_OUTPUT"
+        echo "report=$FOLD_REPORT" >> "$GITHUB_OUTPUT"
+        if [[ "$FOLD_STRICT" == "true" && "$ready" != "true" ]]; then
+          echo 'Fold found deployment blockers:' >&2
+          node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync(process.argv[1],"utf8")); for (const c of (r.checks||[]).filter(x=>x.level==="critical")) console.error(`- ${c.id}: ${c.message}`)' "$FOLD_REPORT"
+          exit 1
+        fi

@@ -26,7 +26,7 @@ It is deliberately small. The contract is portable and the hosted platform is re
 Once the package is published, run it from any project directory:
 
 ```bash
-npx @shiplet/fold --json
+npx @shiplet-labs/fold --json
 ```
 
 For now, run the checker from a checkout:
@@ -40,7 +40,7 @@ node bin/shiplet-check.mjs --json
 After the first npm release, you can install it globally:
 
 ```bash
-npm install --global @shiplet/fold
+npm install --global @shiplet-labs/fold
 shiplet-check
 ```
 
@@ -151,9 +151,27 @@ Add the checker to a project after installing the package:
 - uses: actions/setup-node@v4
   with:
     node-version: 20
-- run: npm install --global @shiplet/fold
+- run: npm install --global @shiplet-labs/fold
 - run: shiplet-check --json
 ```
+
+For a reusable readiness check with outputs:
+
+```yaml
+- uses: Shiplet-Lab/fold-kit@main
+  id: fold
+  with:
+    path: .
+    strict: true
+    report: shiplet-fold-report.json
+- uses: actions/upload-artifact@v4
+  if: always()
+  with:
+    name: shiplet-fold-report
+    path: shiplet-fold-report.json
+```
+
+The action exposes `ready` and `report` outputs and fails on critical findings when `strict` is enabled. Pin the action to a release tag or commit SHA before production use.
 
 This repository also tests the checker against [`examples/sample-node`](examples/sample-node).
 

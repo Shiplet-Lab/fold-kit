@@ -1,16 +1,44 @@
 {
-  "name": "@shiplet/fold",
-  "version": "0.1.0",
+  "name": "@shiplet-labs/fold",
+  "version": "0.1.2",
   "description": "Open Fold contract and application delivery toolkit for small applications.",
   "type": "module",
   "bin": {
-    "shiplet": "./bin/shiplet.mjs",
-    "shiplet-check": "./bin/shiplet-check.mjs"
+    "shiplet": "bin/shiplet.mjs",
+    "shiplet-check": "bin/shiplet-check.mjs"
   },
   "engines": {
     "node": ">=18"
   },
   "license": "Apache-2.0",
+  "keywords": [
+    "shiplet",
+    "fold",
+    "deploy",
+    "docker",
+    "vercel",
+    "cloudflare",
+    "render",
+    "runtime",
+    "healthcheck",
+    "provider-neutral"
+  ],
+  "author": "Shiplet Lab <oss@shiplet.dev>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shiplet-Lab/fold-kit.git"
+  },
+  "homepage": "https://github.com/Shiplet-Lab/fold-kit#readme",
+  "bugs": {
+    "url": "https://github.com/Shiplet-Lab/fold-kit/issues"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/Shiplet-Lab"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "bin",
     "spec",

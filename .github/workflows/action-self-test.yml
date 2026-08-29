@@ -1,0 +1,63 @@
+name: Fold action self-test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  action:
+    name: Test reusable Fold action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Passing application
+        id: passing
+        uses: ./
+        with:
+          path: examples/sample-node
+          strict: true
+          report: /tmp/fold-ready.json
+
+      - name: Assert passing output
+        env:
+          READY: ${{ steps.passing.outputs.ready }}
+          REPORT: ${{ steps.passing.outputs.report }}
+        run: |
+          test "$READY" = true
+          test -s "$REPORT"
+          node -e 'const r=require(process.env.REPORT); if (!r.ready) process.exit(1)'
+
+      - name: Create failing application
+        run: |
+          mkdir -p /tmp/fold-failing
+          printf '%s\n' '{"name":"failing-app","version":"1.0.0"}' > /tmp/fold-failing/package.json
+
+      - name: Failing application is rejected in strict mode
+        id: failing
+        continue-on-error: true
+        uses: ./
+        with:
+          path: /tmp/fold-failing
+          strict: true
+          report: /tmp/fold-failing.json
+
+      - name: Assert failing output
+        env:
+          OUTCOME: ${{ steps.failing.outcome }}
+          REPORT: /tmp/fold-failing.json
+        run: |
+          test "$OUTCOME" = failure
+          test -s "$REPORT"
+          node -e 'const r=require(process.env.REPORT); if (r.ready) process.exit(1); if (!(r.checks||[]).some(c => c.level === "critical")) process.exit(1)'
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fold-action-reports
+          path: /tmp/fold-*.json

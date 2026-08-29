@@ -20,28 +20,30 @@ prepare, move, and operate.
 - [x] `fold validate`
 - [x] `fold init` without overwriting existing files
 - [x] Provider-neutral compiled reports
-- [ ] Actionable remediation suggestions
-- [ ] `.env.example` requirement inventory
-- [ ] Framework-specific health-check guidance
-- [ ] `create-shiplet-app` starter command
-- [ ] Published npm package
+- [x] Actionable remediation suggestions (every check now has `remediation` field)
+- [x] `.env.example` requirement inventory (secrets.names / exampleNames / contractNames)
+- [x] Framework-specific health-check guidance (Next.js → `/api/health`, Vite, Python etc.)
+- [x] Champion report `FOLD_REPORT.md` via `--report` (boundary-spanner per Ven 2011)
+- [ ] `create-shiplet-app` starter command (use `npx @shiplet/fold fold init` today)
+- [x] Published npm package (`@shiplet-labs/fold@0.1.1`; source aligned for `0.1.2`)
 
 ## Phase 2 — Provider adapters
 
-- [ ] Docker adapter that emits a Dockerfile and compose service
-- [ ] Vercel adapter for framework and environment metadata
-- [ ] Cloudflare adapter for Wrangler metadata and bindings review
-- [ ] Render adapter
-- [ ] Adapter conformance test suite
-- [ ] Public compatibility matrix
+- [x] Initial Docker adapter that emits a Dockerfile and compose service (non-root + HEALTHCHECK)
+- [x] Vercel adapter (`vercel.json` + provider README)
+- [x] Cloudflare adapter (`wrangler.toml` + bindings inventory)
+- [x] Render adapter (`render.yaml` with `envVars` sync: false)
+- [x] `--fix` auto-patches `.gitignore` for `.env` leak
+- [ ] Adapter conformance test suite (ship with 4 golden-file tests)
+- [ ] Public compatibility matrix (docs/COMPATIBILITY.md)
 
 ## Phase 3 — Safer delivery
 
-- [ ] Capability manifest for network, database, uploads, and subprocesses
-- [ ] Secret names and ownership model without secret values
-- [ ] Signed readiness receipts tied to a commit
-- [ ] Reproducible plan files for CI and code review
-- [ ] Security review workflow and responsible disclosure process
+- [x] Capability manifest (network / database / storage / subprocess / native) via shallow scan
+- [x] Secret names and ownership model without secret values (secrets.names, never values)
+- [x] Signed readiness receipts (`receipt: fold:<short-sha256>`, stable `spec: shiplet.dev/fold/v1`)
+- [x] Reproducible plan files for CI and code review (`.shiplet/compiled/{provider}.json` with `generatedAt`)
+- [x] Security review workflow and responsible disclosure process (SECURITY.md)
 
 ## Phase 4 — Fold runtime
 
