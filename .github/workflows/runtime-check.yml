@@ -18,11 +18,10 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020d # v4.1.0
         with:
           node-version: 22
-          cache: npm
       - name: Run checker tests
         run: npm test
       - name: Check example application
         working-directory: examples/sample-node
         run: node ../../bin/shiplet-check.mjs --json
-      - name: Verify lock reproducibility
+      - name: Verify JSON output
         run: node bin/shiplet-check.mjs --json > /tmp/fold.json && cat /tmp/fold.json | python3 -m json.tool > /dev/null
