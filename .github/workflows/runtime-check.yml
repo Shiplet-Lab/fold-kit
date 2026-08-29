@@ -24,4 +24,6 @@ jobs:
         working-directory: examples/sample-node
         run: node ../../bin/shiplet-check.mjs --json
       - name: Verify JSON output
-        run: node bin/shiplet-check.mjs --json > /tmp/fold.json && cat /tmp/fold.json | python3 -m json.tool > /dev/null
+        run: node bin/shiplet-check.mjs --json > /tmp/fold.json || test $? -eq 1
+      - name: Validate JSON output
+        run: python3 -m json.tool /tmp/fold.json > /dev/null
